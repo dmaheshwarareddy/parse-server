@@ -14,8 +14,7 @@ if (!global._babelPolyfill) {
   require('babel-polyfill');
 }
 
-import { logger,
-      configureLogger }         from './logger';
+import log                      from './logging';
 import AppCache                 from './cache';
 import Config                   from './Config';
 import parseServerPackage       from '../package.json';
@@ -162,9 +161,7 @@ class ParseServer {
       throw 'When using an explicit database adapter, you must also use and explicit filesAdapter.';
     }
 
-    if (logsFolder) {
-      configureLogger({logsFolder, jsonLogs});
-    }
+    
 
     if (cloud) {
       addParseCloud();
@@ -177,16 +174,22 @@ class ParseServer {
       }
     }
 
-    if (verbose || process.env.VERBOSE || process.env.VERBOSE_PARSE_SERVER) {
-      configureLogger({level: 'silly', jsonLogs});
-    }
-
     const filesControllerAdapter = loadAdapter(filesAdapter, () => {
       return new GridStoreAdapter(databaseURI);
     });
     // Pass the push options too as it works with the default
     const pushControllerAdapter = loadAdapter(push && push.adapter, ParsePushAdapter, push || {});
+    
     const loggerControllerAdapter = loadAdapter(loggerAdapter, WinstonLoggerAdapter);
+
+    log.setLogger(loggerControllerAdapter.logger);
+    if (logsFolder) {
+      loggerControllerAdapter.configureLogger({logsFolder, jsonLogs});
+    }
+    if (verbose || process.env.VERBOSE || process.env.VERBOSE_PARSE_SERVER) {
+      loggerControllerAdapter.configureLogger({level: 'silly', jsonLogs});
+    }
+
     const emailControllerAdapter = loadAdapter(emailAdapter);
     const cacheControllerAdapter = loadAdapter(cacheAdapter, InMemoryCacheAdapter, {appId: appId});
     const analyticsControllerAdapter = loadAdapter(analyticsAdapter, AnalyticsAdapter);
@@ -211,14 +214,14 @@ class ParseServer {
     let usernameUniqueness = userClassPromise
     .then(() => databaseController.adapter.ensureUniqueness('_User', requiredUserFields, ['username']))
     .catch(error => {
-      logger.warn('Unable to ensure uniqueness for usernames: ', error);
+      log.logger.warn('Unable to ensure uniqueness for usernames: ', error);
       return Promise.reject(error);
     });
 
     let emailUniqueness = userClassPromise
     .then(() => databaseController.adapter.ensureUniqueness('_User', requiredUserFields, ['email']))
     .catch(error => {
-      logger.warn('Unable to ensure uniqueness for user email addresses: ', error);
+      log.logger.warn('Unable to ensure uniqueness for user email addresses: ', error);
       return Promise.reject(error);
     })
 

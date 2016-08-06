@@ -1,5 +1,2 @@
-import { addGroup } from '../logger';
-
-let PLog = addGroup('parse-live-query-server');
-
-module.exports = PLog;
+import log from '../logging';
+module.exports = log.logger;

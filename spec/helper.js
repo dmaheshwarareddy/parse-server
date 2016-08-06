@@ -342,8 +342,6 @@ global.fit_exclude_dbs = excluded => {
   }
 }
 
-// LiveQuery test setting
-require('../src/LiveQuery/PLog').logLevel = 'NONE';
 var libraryCache = {};
 jasmine.mockLibrary = function(library, name, mock) {
   var original = require(library)[name];

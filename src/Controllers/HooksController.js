@@ -4,7 +4,7 @@ import * as DatabaseAdapter from "../DatabaseAdapter";
 import * as triggers        from "../triggers";
 import * as Parse           from "parse/node";
 import * as request         from "request";
-import { logger }           from '../logger';
+import log                  from '../logging';
 
 const DefaultHooksCollectionName = "_Hooks";
 
@@ -181,7 +181,7 @@ function wrapToHTTPRequest(hook, key) {
     if (key) {
       jsonRequest.headers['X-Parse-Webhook-Key'] = key;
     } else {
-      logger.warn('Making outgoing webhook request without webhookKey being set!');
+      log.logger.warn('Making outgoing webhook request without webhookKey being set!');
     }
 
     request.post(hook.url, jsonRequest, function (err, httpResponse, body) {

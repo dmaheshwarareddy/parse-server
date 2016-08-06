@@ -1,4 +1,4 @@
-import log from '../../../logger';
+import log from '../../../logging';
 import _   from 'lodash';
 var mongodb = require('mongodb');
 var Parse = require('parse/node').Parse;

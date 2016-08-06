@@ -1,7 +1,7 @@
 // triggers.js
 import Parse    from 'parse/node';
 import AppCache from './cache';
-import { logger } from './logger';
+import log      from './logging';
 
 export const Types = {
   beforeSave: 'beforeSave',
@@ -157,7 +157,7 @@ function logTrigger(triggerType, className, input) {
   if (triggerType.indexOf('after') != 0) {
     return;
   }
-  logger.info(`${triggerType} triggered for ${className}\nInput: ${JSON.stringify(input)}`, {
+  log.logger.info(`${triggerType} triggered for ${className}\nInput: ${JSON.stringify(input)}`, {
     className, 
     triggerType,
     input
@@ -165,7 +165,7 @@ function logTrigger(triggerType, className, input) {
 }
 
 function logTriggerSuccess(triggerType, className, input, result) {
-  logger.info(`${triggerType} triggered for ${className}\nInput: ${JSON.stringify(input)}\nResult: ${JSON.stringify(result)}`, {
+  log.logger.info(`${triggerType} triggered for ${className}\nInput: ${JSON.stringify(input)}\nResult: ${JSON.stringify(result)}`, {
     className, 
     triggerType,
     input,
@@ -174,7 +174,7 @@ function logTriggerSuccess(triggerType, className, input, result) {
 }
 
 function logTriggerError(triggerType, className, input, error) {
-  logger.error(`${triggerType} failed for ${className}\nInput: ${JSON.stringify(input)}\Error: ${JSON.stringify(error)}`, {
+  log.logger.error(`${triggerType} failed for ${className}\nInput: ${JSON.stringify(input)}\Error: ${JSON.stringify(error)}`, {
     className, 
     triggerType,
     input,

@@ -1,5 +1,5 @@
 import ParseServer          from './ParseServer';
-import logger            from './logger';
+import logger               from './logging';
 import S3Adapter            from 'parse-server-s3-adapter'
 import FileSystemAdapter    from 'parse-server-fs-adapter'
 import InMemoryCacheAdapter from './Adapters/Cache/InMemoryCacheAdapter'

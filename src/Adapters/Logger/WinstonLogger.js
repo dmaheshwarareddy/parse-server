@@ -100,5 +100,5 @@ export function addTransport(transport) {
   });
 }
 
-export { logger, addTransport };
+export { logger, addTransport, configureLogger };
 export default logger;

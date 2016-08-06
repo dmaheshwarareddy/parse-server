@@ -1,5 +1,5 @@
 import { md5Hash, newObjectId } from './cryptoUtils';
-import { logger }               from './logger';
+import log                      from './logging';
 
 const PUSH_STATUS_COLLECTION = '_PushStatus';
 
@@ -51,7 +51,7 @@ export default function pushStatusHandler(config) {
   }
 
   let setRunning = function(installations) {
-    logger.verbose('sending push to %d installations', installations.length);
+    log.logger.verbose('sending push to %d installations', installations.length);
     lastPromise = lastPromise.then(() => {
       return database.update(PUSH_STATUS_COLLECTION,
         {status:"pending", objectId: objectId},
@@ -90,7 +90,7 @@ export default function pushStatusHandler(config) {
         return memo;
       }, update);
     }
-    logger.verbose('sent push! %d success, %d failures', update.numSent, update.numFailed);
+    log.logger.verbose('sent push! %d success, %d failures', update.numSent, update.numFailed);
     lastPromise = lastPromise.then(() => {
       return database.update(PUSH_STATUS_COLLECTION, {status:"running", objectId }, update);
     });
@@ -103,7 +103,7 @@ export default function pushStatusHandler(config) {
       status: 'failed',
       updatedAt: new Date()
     }
-    logger.info('warning: error while sending push', err);
+    log.logger.info('warning: error while sending push', err);
     lastPromise = lastPromise.then(() => {
       return database.update(PUSH_STATUS_COLLECTION, { objectId }, update);
     });

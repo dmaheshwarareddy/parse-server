@@ -1,5 +1,5 @@
 import { LoggerAdapter } from './LoggerAdapter';
-import { logger, addTransport } from '../../logger';
+import { logger, addTransport, configureLogger } from './WinstonLogger';
 
 const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
 const CACHE_TIME = 1000 * 60;
@@ -58,6 +58,14 @@ export class WinstonLoggerAdapter extends LoggerAdapter {
 
   error() {
     return logger.error.apply(undefined, arguments);
+  }
+
+  get logger() {
+    return logger;
+  }
+
+  configureLogger(options) {
+    configureLogger(options);
   }
 
   addTransport(transport) {
