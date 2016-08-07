@@ -1,4 +1,4 @@
-import log from '../logging';
+import getLogger from '../logging';
 
 let typeMap = new Map([['disconnect', 'close']]);
 
@@ -9,7 +9,7 @@ export class ParseWebSocketServer {
     let WebSocketServer = require('ws').Server;
     let wss = new WebSocketServer({ server: server });
     wss.on('listening', () => {
-      log.logger.info('Parse LiveQuery Server starts running');
+      getLogger().info('Parse LiveQuery Server starts running');
     });
     wss.on('connection', (ws) => {
       onConnect(new ParseWebSocket(ws));

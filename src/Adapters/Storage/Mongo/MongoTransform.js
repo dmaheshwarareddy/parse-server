@@ -1,4 +1,4 @@
-import log from '../../../logging';
+import getLogger from '../../../logging';
 import _   from 'lodash';
 var mongodb = require('mongodb');
 var Parse = require('parse/node').Parse;
@@ -749,11 +749,11 @@ const mongoObjectToParseObject = (className, mongoObject, schema) => {
         if (key.indexOf('_p_') == 0) {
           var newKey = key.substring(3);
           if (!schema.fields[newKey]) {
-            log.info('transform.js', 'Found a pointer column not in the schema, dropping it.', className, newKey);
+            getLogger().info('transform.js', 'Found a pointer column not in the schema, dropping it.', className, newKey);
             break;
           }
           if (schema.fields[newKey].type !== 'Pointer') {
-            log.info('transform.js', 'Found a pointer in a non-pointer column, dropping it.', className, key);
+            getLogger().info('transform.js', 'Found a pointer in a non-pointer column, dropping it.', className, key);
             break;
           }
           if (mongoObject[key] === null) {

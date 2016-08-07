@@ -6,7 +6,7 @@ var express = require('express'),
 
 import PromiseRouter from '../PromiseRouter';
 import _ from 'lodash';
-import log from '../logging';
+import getLogger from '../logging';
 
 function parseObject(obj) {
   if (Array.isArray(obj)) {
@@ -78,14 +78,14 @@ export class FunctionsRouter extends PromiseRouter {
 
       return new Promise(function (resolve, reject) {
         var response = FunctionsRouter.createResponseObject((result) => {
-          log.logger.info(`Ran cloud function ${req.params.functionName} with:\nInput: ${JSON.stringify(params)}\nResult: ${JSON.stringify(result.response.result)}`, {
+          getLogger().info(`Ran cloud function ${req.params.functionName} with:\nInput: ${JSON.stringify(params)}\nResult: ${JSON.stringify(result.response.result)}`, {
             functionName: req.params.functionName,
             params,
             result: result.response.result
           });
           resolve(result);
         }, (error) => {
-          log.logger.error(`Failed running cloud function ${req.params.functionName} with:\nInput: ${JSON.stringify(params)}\Error: ${JSON.stringify(error)}`, {
+          getLogger().error(`Failed running cloud function ${req.params.functionName} with:\nInput: ${JSON.stringify(params)}\Error: ${JSON.stringify(error)}`, {
             functionName: req.params.functionName,
             params,
             error

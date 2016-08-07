@@ -2,7 +2,7 @@ import request from 'request';
 import Parse from 'parse/node';
 import HTTPResponse from './HTTPResponse';
 import querystring from 'querystring';
-import log from '../logging';
+import getLogger from '../logging';
 
 var encodeBody = function({body, headers = {}}) {
   if (typeof body !== 'object') {
@@ -21,7 +21,7 @@ var encodeBody = function({body, headers = {}}) {
   } else {
     /* istanbul ignore next */
     if (contentTypeKeys.length > 1) {
-      log.logger.error('Parse.Cloud.httpRequest', 'multiple content-type headers are set.');
+      getLogger().error('Parse.Cloud.httpRequest', 'multiple content-type headers are set.');
     }
     // There maybe many, we'll just take the 1st one
     var contentType = contentTypeKeys[0];

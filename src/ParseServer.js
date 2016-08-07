@@ -14,7 +14,7 @@ if (!global._babelPolyfill) {
   require('babel-polyfill');
 }
 
-import log                      from './logging';
+import { setLogger, getLogger } from './logging';
 import AppCache                 from './cache';
 import Config                   from './Config';
 import parseServerPackage       from '../package.json';
@@ -182,7 +182,7 @@ class ParseServer {
     
     const loggerControllerAdapter = loadAdapter(loggerAdapter, WinstonLoggerAdapter);
 
-    log.setLogger(loggerControllerAdapter.logger);
+    setLogger(loggerControllerAdapter);
     if (logsFolder) {
       loggerControllerAdapter.configureLogger({logsFolder, jsonLogs});
     }
@@ -214,14 +214,14 @@ class ParseServer {
     let usernameUniqueness = userClassPromise
     .then(() => databaseController.adapter.ensureUniqueness('_User', requiredUserFields, ['username']))
     .catch(error => {
-      log.logger.warn('Unable to ensure uniqueness for usernames: ', error);
+      getLogger().warn('Unable to ensure uniqueness for usernames: ', error);
       return Promise.reject(error);
     });
 
     let emailUniqueness = userClassPromise
     .then(() => databaseController.adapter.ensureUniqueness('_User', requiredUserFields, ['email']))
     .catch(error => {
-      log.logger.warn('Unable to ensure uniqueness for user email addresses: ', error);
+      getLogger().warn('Unable to ensure uniqueness for user email addresses: ', error);
       return Promise.reject(error);
     })
 

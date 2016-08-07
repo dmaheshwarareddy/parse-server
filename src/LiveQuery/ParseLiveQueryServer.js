@@ -3,11 +3,13 @@ import Parse from 'parse/node';
 import { Subscription } from './Subscription';
 import { Client } from './Client';
 import { ParseWebSocketServer } from './ParseWebSocketServer';
-import PLog from './PLog';
+import getLogger from '../logging';
 import RequestSchema from './RequestSchema';
 import { matchesQuery, queryHash } from './QueryTools';
 import { ParsePubSub } from './ParsePubSub';
 import { SessionTokenCache } from './SessionTokenCache';
+
+let PLog;
 
 class ParseLiveQueryServer {
   clientId: number;
@@ -25,6 +27,8 @@ class ParseLiveQueryServer {
     this.subscriptions = new Map();
 
     config = config || {};
+
+    PLog = getLogger();
     // Set LogLevel
     PLog.level = config.logLevel || 'INFO';
     // Store keys, convert obj to map
@@ -258,7 +262,7 @@ class ParseLiveQueryServer {
     });
 
     parseWebsocket.on('disconnect', () => {
-      PLog.log('Client disconnect: %d', parseWebsocket.clientId);
+      PLog.info('Client disconnect: %d', parseWebsocket.clientId);
       let clientId = parseWebsocket.clientId;
       if (!this.clients.has(clientId)) {
         PLog.error('Can not find client %d on disconnect', clientId);
@@ -338,7 +342,7 @@ class ParseLiveQueryServer {
     parseWebsocket.clientId = this.clientId;
     this.clientId += 1;
     this.clients.set(parseWebsocket.clientId, client);
-    PLog.log('Create new client: %d', parseWebsocket.clientId);
+    PLog.info('Create new client: %d', parseWebsocket.clientId);
     client.pushConnect();
   }
 

@@ -1,9 +1,9 @@
 var Subscription = require('../src/LiveQuery/Subscription').Subscription;
-
 describe('Subscription', function() {
 
   beforeEach(function() {
     var mockError = jasmine.createSpy('error');
+    //spyOn(PLog, 'error').and.callThrough();
     jasmine.mockLibrary('../src/LiveQuery/PLog', 'error', mockError);
   });
 

@@ -1,5 +1,5 @@
 import { ParsePubSub } from './ParsePubSub';
-import log from '../logging';
+import getLogger from '../logging';
 
 class ParseCloudCodePublisher {
   parsePublisher: Object;
@@ -20,7 +20,7 @@ class ParseCloudCodePublisher {
 
   // Request is the request object from cloud code functions. request.object is a ParseObject.
   _onCloudCodeMessage(type: string, request: any): void {
-    log.logger.verbose('Raw request from cloud code current : %j | original : %j', request.object, request.original);
+    getLogger().verbose('Raw request from cloud code current : %j | original : %j', request.object, request.original);
     // We need the full JSON which includes className
     let message = {
       currentParseObject: request.object._toFullJSON()

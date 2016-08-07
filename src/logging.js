@@ -1,32 +1,14 @@
 'use strict';
 
-import * as winstonLogger from './Adapters/Logger/WinstonLogger';
+import WinstonLoggerAdapter from './Adapters/Logger/WinstonLoggerAdapter';
 
-let logger = winstonLogger.logger;
+let logger = new WinstonLoggerAdapter();
 export function setLogger(aLogger) {
-  if (!aLogger) {
-    console.log('NO LOGGER SET!');
-  }
   logger = aLogger;
 }
 
-function getLogger() {
+export function getLogger() {
   return logger;
 }
 
-export function addTransport(transport) {
-  winstonLogger.addTransport(transport);
-}
-
-let logging = {
-  setLogger,
-  getLogger,
-  addTransport
-};
-
-Object.defineProperty(logging, 'logger', {
-  get: getLogger
-});
-
-module.exports = logging;
-export default logging;
+export default getLogger;

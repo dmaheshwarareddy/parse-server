@@ -1,5 +1,5 @@
 import Parse from 'parse/node';
-import log from '../logging';
+import getLogger from '../logging';
 
 import type { FlattenedObjectData } from './Subscription';
 export type Message = { [attr: string]: any };
@@ -37,7 +37,7 @@ class Client {
   }
 
   static pushResponse(parseWebSocket: any, message: Message): void {
-    log.logger.verbose('Push Response : %j', message);
+    getLogger().verbose('Push Response : %j', message);
     parseWebSocket.send(message);
   }
 

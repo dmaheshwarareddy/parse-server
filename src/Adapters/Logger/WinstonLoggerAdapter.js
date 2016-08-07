@@ -60,8 +60,16 @@ export class WinstonLoggerAdapter extends LoggerAdapter {
     return logger.error.apply(undefined, arguments);
   }
 
-  get logger() {
-    return logger;
+  warn() {
+    return logger.warn.apply(undefined, arguments);
+  }
+
+  verbose() {
+    return logger.verbose.apply(undefined, arguments);
+  }
+
+  log() {
+    return logger.log.apply(undefined, arguments);
   }
 
   configureLogger(options) {

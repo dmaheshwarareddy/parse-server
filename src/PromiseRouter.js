@@ -8,7 +8,7 @@
 import AppCache       from './cache';
 import express        from 'express';
 import url            from 'url';
-import logging        from './logging';
+import getLogger      from './logging';
 import {inspect}      from 'util';
 
 export default class PromiseRouter {
@@ -158,7 +158,7 @@ export default class PromiseRouter {
 function makeExpressHandler(appId, promiseHandler) {
   let config = AppCache.get(appId);
   return function(req, res, next) {
-    let log = logging.logger;
+    let log = getLogger();
     try {
       let url = maskSensitiveUrl(req);
       let body = maskSensitiveBody(req);

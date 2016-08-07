@@ -6,14 +6,14 @@
 // * info(obj1 [, obj2, .., objN])
 // * error(obj1 [, obj2, .., objN])
 // * query(options, callback)
-// * get logger()
 // * configureLogger(options)
 // Default is WinstonLoggerAdapter.js
 
 export class LoggerAdapter {
   info() {}
   error() {}
-  query(options, callback) {}
+  warn() {}
+  verbose() {}
   configureLogger(options) {}
 }
 
